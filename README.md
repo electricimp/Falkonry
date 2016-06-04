@@ -54,15 +54,15 @@ falkonry.deletePipeline("9k5brfd1ilkg6n", function(err, res) {
 })
 
 table - must have these keys
-pipelineSettings <-   { "name": "APITestPipeline", unique string
-                        "input": "57398u1gijgckj", buffer id
+pipelineSettings <-   { "name": "APITestPipeline", //unique string
+                        "input": "57398u1gijgckj", //buffer id
                         "thingIdentifier" : "Env_Tail_1", //(automatically set to "thing" if singleThingId) must have this...
-                        "singleThingID": "TQCt8aA7HkOl", ...or this
+                        "singleThingID": "TQCt8aA7HkOl", //...or this
                         "inputList": [{ "name": "temp", should match slot name from buffer data table
                                         "valueType": { "type": "Numeric" },
                                         "eventType": { "type": "Samples" }
                                      },
-                                     { "name": "humid", should match slot name from buffer data table
+                                     { "name": "humid", //should match slot name from buffer data table
                                         "valueType": { "type": "Numeric" },
                                         "eventType": { "type": "Samples" }
                                      }],
@@ -70,7 +70,7 @@ pipelineSettings <-   { "name": "APITestPipeline", unique string
                                             "inputList": [ "temp",
                                                             "humid" ]
                                          }],
-                        "interval": { "duration": "PT1S" } must have duration or field key
+                        "interval": { "duration": "PT1S" } //must have duration or field key
                       };
 falkonry.createPipeline(pipelineSettings, function(err, res) {
     server.error(err)
