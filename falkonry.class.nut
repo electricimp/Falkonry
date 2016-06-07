@@ -2,8 +2,7 @@ class Falkonry {
     _token = null;
     _url = null;
     _headers = null;
-    _agentID = null;
-    _timeIdentifier = null;
+    timeIdentifier = null;
 
     static DEFAULT_TIME_IDENTIFIER = "timeStamp";
 
@@ -16,40 +15,16 @@ class Falkonry {
     constructor(api_token, falkonry_url = null) {
         _token = api_token;
         _url = falkonry_url ? falkonry_url : "https://service.falkonry.io";
-        _agentID = split(http.agenturl(), "/").pop();
 
-        _timeIdentifier = DEFAULT_TIME_IDENTIFIER;
+        timeIdentifier = DEFAULT_TIME_IDENTIFIER;
         setRequestHeaders();
-    }
-
-    /////////////// Pipeline Functions //////////////////////////
-
-    function getPipelines(cb = null) {
-        local req = http.get(format("%s/pipeline", _url), _headers);
-        _sendRequest(req, cb);
-    }
-
-    function getPipeline(id, cb = null) {
-        local req = http.get(format("%s/pipeline/%s", _url, id), _headers);
-        _sendRequest(req, cb);
-    }
-
-    function createPipeline(pipelineSettings, cb = null) {
-        local req = http.post(format("%s/pipeline", _url), _headers, http.jsonencode(pipelineSettings));
-        _sendRequest(req, cb);
-    }
-
-    function deletePipeline(id, cb = null) {
-        local req = http.httpdelete(format("%s/pipeline/%s", _url, id), _headers);
-        _sendRequest(req, cb);
     }
 
     /////////////// Event Buffer Functions //////////////////////
 
     function createEventBuffer(bufferSettings, cb = null) {
-        // Set defaults for all required buffer settings
-        if(!("name" in bufferSettings)) bufferSettings.name <- _agentID;
-        if(!("timeIdentifier" in bufferSettings)) bufferSettings.timeIdentifier <- _timeIdentifier;
+        // Set defaults for timestamp related settings
+        if(!("timeIdentifier" in bufferSettings)) bufferSettings.timeIdentifier <- timeIdentifier;
         if(!("timeFormat" in bufferSettings)) bufferSettings.timeFormat <- "iso_8601";
 
         local req = http.post(format("%s/eventBuffer", _url), _headers, http.jsonencode(bufferSettings));
@@ -107,6 +82,28 @@ class Falkonry {
         // 404 No event buffer or subscription exists
     }
 
+    /////////////// Pipeline Functions //////////////////////////
+
+    function getPipelines(cb = null) {
+        local req = http.get(format("%s/pipeline", _url), _headers);
+        _sendRequest(req, cb);
+    }
+
+    function getPipeline(id, cb = null) {
+        local req = http.get(format("%s/pipeline/%s", _url, id), _headers);
+        _sendRequest(req, cb);
+    }
+
+    function createPipeline(pipelineSettings, cb = null) {
+        local req = http.post(format("%s/pipeline", _url), _headers, http.jsonencode(pipelineSettings));
+        _sendRequest(req, cb);
+    }
+
+    function deletePipeline(id, cb = null) {
+        local req = http.httpdelete(format("%s/pipeline/%s", _url, id), _headers);
+        _sendRequest(req, cb);
+    }
+
     /////////////// Helper Functions ////////////////////////////
 
     function setRequestHeaders(headers = {}) {
@@ -116,13 +113,13 @@ class Falkonry {
     }
 
     // use to set locally, this will not update an exsisting eventBuffer
-    function setTimeIdentifier(tsID) {
-        _timeIdentifier = tsID;
+    function setTimeIdentifier(tsKey) {
+        timeIdentifier = tsKey;
     }
 
     // gets local time identifier (used to format and send data to eventBuffer)
     function getTimeIdentifier() {
-        return _timeIdentifier
+        return timeIdentifier
     }
 
     // iso_8601
@@ -179,18 +176,18 @@ class Falkonry {
 
         if(typeof data == "array") {
             foreach(reading in data) {
-                if(typeof reading != "table" || !(_timeIdentifier in reading)) {
+                if(typeof reading != "table" || !(timeIdentifier in reading)) {
                     formattedData = null;
                     break;
                 }
                 if(formatTS) {
-                    reading[_timeIdentifier] <- formatTimeStamp(reading[_timeIdentifier]);
+                    reading[timeIdentifier] <- formatTimeStamp(reading[timeIdentifier]);
                 }
                 formattedData += ( http.jsonencode(reading) + "\n" );
             }
-        } else if (typeof data == "table" && (_timeIdentifier in reading)) {
+        } else if (typeof data == "table" && (timeIdentifier in reading)) {
             if(formatTS) {
-                reading[_timeIdentifier] <- formatTimeStamp(reading[_timeIdentifier]);
+                reading[timeIdentifier] <- formatTimeStamp(reading[timeIdentifier]);
             }
             formattedData = http.jsonencode(data);
         } else {
