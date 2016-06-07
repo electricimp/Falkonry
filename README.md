@@ -27,6 +27,7 @@ The *createEventBuffer()* method takes one required parameter: a settings table,
 
 ####Event Buffer Settings
 | Key | Default | Required | Description |
+| ----- | ---------- | ------------ | --------------- |
 | name | N/A | Yes | An identifying name for the event buffer. It must be unique for the account and may be changed later. |
 | timeIdentifier | Falkonry.timeIdentifier | Yes | The label in the input data table which represents timestamps for each event.  Note: This value should **always** be set using the *setTimeIdentifier()* method before creating an event buffer. |
 | timeFormat | "iso_8601" | Yes | The format of the timestamps for each event in the input data |
@@ -100,6 +101,7 @@ The *createPipeline()* method takes one required parameter: a settings table, an
 
 ####Pipeline Settings
 | Key  | Required | Description |
+| ------ | ------------ | --------------- |
 | name | Yes | An identifying name for the pipeline. It must be unique for the account and may be changed later. |
 | input | Yes | The identifier of the event buffer used to supply inflow to this pipeline  |
 | thingIdentifier | Either a *thingIdentifier* or a *singleThingID* must set | The slot in the input data table which identifies each individual unit or thing in the pipeline |
