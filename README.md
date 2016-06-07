@@ -104,10 +104,10 @@ The *createPipeline()* method takes one required parameter: a settings table, an
 | ------ | ------------ | --------------- |
 | name | Yes | An identifying name for the pipeline. It must be unique for the account and may be changed later. |
 | input | Yes | The identifier of the event buffer used to supply inflow to this pipeline  |
-| thingIdentifier | Either a *thingIdentifier* or a *singleThingID* must set | The slot in the input data table which identifies each individual unit or thing in the pipeline |
+| thingIdentifier | Either a *thingIdentifier* or a *singleThingID* must set | The slot in the input data table which identifies each individual unit or thing in the pipeline.  Automatically set to "thing" if singleThingID is passed in. |
 | singleThingID | Either a *thingIdentifier* or a *singleThingID* must set | The identifier of the individual unit or thing in the pipeline |
-| inputList | Yes | The list of signals referenced in the pipeline this list must match the uploaded data |
-| assessmentList | Yes | The list of list of assessments desired from the pipeline |
+| inputList | Yes | The list of signals referenced in the pipeline this list must match the uploaded data.  See example below for how to format the inputList. |
+| assessmentList | Yes | The list of list of assessments desired from the pipeline. See example below for how to format the inputList. |
 | interval | Yes | The minimum frequency at which assessment results are desired for the pipeline |
 | sourceId | No | An identifier used in an external system to identify this pipleline |
 
@@ -119,7 +119,7 @@ pipelineID <- null;
 
 pipelineSettings <-   { "name": "APITestPipeline",
                         "input": eventBufferID,
-                        "thingIdentifier" : "thing", // automatically set to "thing" if singleThingId passed in
+                        "thingIdentifier" : "thing",
                         "singleThingID": agentID,
                         "inputList": [{ "name": "temp", // must match a key from buffer event data table
                                         "valueType": { "type": "Numeric" }, // data format ("Numeric" for numbers, "Categorical" for strings or text)
