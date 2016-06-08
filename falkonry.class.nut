@@ -134,9 +134,6 @@ class Falkonry {
         request.sendasync(function(res) {
             local err, data;
 
-            log(res)
-            log(res.body)
-
             switch(res.statuscode) {
                 case 200:
                 case 201:
