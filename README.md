@@ -1,6 +1,6 @@
 # Falkonry
 
-The [Falkonry](http://falkonry.com/start) service is used to transform signal data into real-time assessments of condition.  This library integrates with the Falkonry Condition Prediction API. To use this library you will need to sign up for a [Falkonry account](https://service.falkonry.io/).
+The [Falkonry](http://falkonry.com/start) service is used to transform signal data into real-time assessments of condition.  This library integrates with the [Falkonry Condition Prediction API](http://help.falkonry.com/en/latest/connector/rest.html). To use this library you will need to sign up for a [Falkonry account](https://service.falkonry.io/).
 
 **To add this library to your project, add** `#require "falkonry.class.nut:1.0.0"` **to the top of your agent code.**
 
@@ -15,7 +15,7 @@ All Event Buffer and Pipeline methods make asynchonous requests to Falkonry and 
 The constructor takes one required parameter: an API token used to authenticate all requests made to Falkonry, and one optional parameter: the base URL to use for each request.  If no URL is passed in "https://service.falkonry.io" will be used as the default.  To generate an API Token sign in to [Falkonry Service UI](https://service.falkonry.io), then click the *ADD TOKEN* button found under the Account -> Integration tab.
 
 ```squirrel
-API_TOKEN <- "<YOUR_API_TOKEN_HERE>";
+const API_TOKEN = "<YOUR_API_TOKEN_HERE>";
 falkonry <- Falkonry(API_TOKEN);
 ```
 
@@ -79,7 +79,7 @@ falkonry.deleteEventBuffer(eventBufferID, function(err, res) {
 })
 ```
 
-### addDataToEventBuffer(*eventBufferId, data,[, callback, formatTS]*)
+### addDataToEventBuffer(*eventBufferId, data,[, formatTS, callback]*)
 
 The *addDataToEventBuffer()* method uploads data to the specified event buffer.  It takes two required parameters: the id of the event buffer and the data to be sent, and two optional parameters: a callback function and a boolean formatTS.  The data passed in can be either a table with a single reading, including a timeStamp with the slot name matching the *timeIdentifier*, or an array of readings.  By default the *formatTS* boolean is set to `true`, which will reformat a timestamp set using Electric Imp's *time()* method into an ISO8601 time format before being sent.
 
