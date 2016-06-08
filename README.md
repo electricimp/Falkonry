@@ -198,7 +198,7 @@ falkonry.setTimeIdentifier("ts");
 The *getTimeIdentifier()* method returns the locally stored string containing the label in the input data table which represents timestamps for each event.
 
 ```squirrel
-server.log(getTimeIdentifier());
+server.log(falkonry.getTimeIdentifier());
 ```
 
 ### formatTimeStamp(*[epochTimeStamp]*)
